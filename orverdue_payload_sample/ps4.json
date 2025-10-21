@@ -1,0 +1,149 @@
+{
+  "as_of": "2025-10-20 16:32:56 (Asia/Taipei)",
+  "day_start": "2025-10-20 00:00:00 (Asia/Taipei)",
+  "day_end": "2025-10-20 24:00:00 (Asia/Taipei)",
+  "task": {
+    "kanban_id": "S-W-20250923163443333-0006",
+    "work_order_id": "T10-000631435",
+    "part_no": "30200793",
+    "work_center_id": "A003",
+    "process_id": "A003",
+    "process_seq": 10,
+    "expected_start_time": "2025-10-20 07:50:00",
+    "actual_start_time": "nan",
+    "produce_status": 0,
+    "flags": {
+      "planned_today_flag": 1,
+      "overdue_not_started_so_far_flag": 1,
+      "started_on_time_today_flag": 0,
+      "started_late_today_flag": 0
+    }
+  },
+  "context": {
+    "upstream_status": {
+      "work_order_id": "T10-000631435",
+      "kanban_id": "S-W-20250923163443333-0006",
+      "process_id": null,
+      "process_seq": null,
+      "part_no": null,
+      "work_center_id": null,
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "produce_status": null,
+      "request_qty": null,
+      "finish_qty": null
+    },
+    "materials_prep_status": [
+      {
+        "material_kanban_id": "S-M-20250923163443333-0051",
+        "part_no": "30258143",
+        "part_name": "搖臂組L",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "堉盛",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0042",
+        "part_no": "34103173",
+        "part_name": "釋放柄組",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "貞得",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0054",
+        "part_no": "34199013",
+        "part_name": "離合器釋放柄組 R",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "郁功",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0043",
+        "part_no": "41300522",
+        "part_name": "釋放連桿 L",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "金成峰",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0041",
+        "part_no": "43640006",
+        "part_name": "軸襯",
+        "finish_qty": 0.0,
+        "request_qty": 198.0,
+        "supplier_name": "郁功",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0044",
+        "part_no": "50508082",
+        "part_name": "套筒螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0049",
+        "part_no": "50706004",
+        "part_name": "止付螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0045",
+        "part_no": "53108009",
+        "part_name": "平華司",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "得譽",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0046",
+        "part_no": "53108015",
+        "part_name": "尼龍華司",
+        "finish_qty": 0.0,
+        "request_qty": 198.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0047",
+        "part_no": "53208012",
+        "part_name": "尼龍螺帽",
+        "finish_qty": 0.0,
+        "request_qty": 99.0,
+        "supplier_name": "得譽",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163443333-0048",
+        "part_no": "54100026",
+        "part_name": "R型銷",
+        "finish_qty": 0.0,
+        "request_qty": 198.0,
+        "supplier_name": "得譽",
+        "to_kanban_produce": "S-W-20250923163443333-0006",
+        "load_dts": "2025-10-20 22:05:30"
+      }
+    ]
+  }
+}

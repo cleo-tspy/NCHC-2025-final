@@ -1,0 +1,38 @@
+{
+  "as_of": "2025-10-21 13:02:20 (Asia/Taipei)",
+  "day_start": "2025-10-21 00:00:00 (Asia/Taipei)",
+  "day_end": "2025-10-21 24:00:00 (Asia/Taipei)",
+  "task": {
+    "kanban_id": "S-W-20250925110645602-0015-3",
+    "work_order_id": "T10-000633267",
+    "part_no": "21031067",
+    "work_center_id": "1A",
+    "process_id": "T012",
+    "process_seq": 40,
+    "expected_start_time": "2025-10-21 08:28:24",
+    "actual_start_time": "nan",
+    "produce_status": 0,
+    "flags": {
+      "planned_today_flag": 1,
+      "overdue_not_started_so_far_flag": 1,
+      "started_on_time_today_flag": 0,
+      "started_late_today_flag": 0
+    }
+  },
+  "context": {
+    "upstream_status": {
+      "work_order_id": "T10-000633267",
+      "kanban_id": "S-W-20250930204710528-0015-2",
+      "process_id": "T051",
+      "process_seq": 30,
+      "part_no": "21031067",
+      "work_center_id": "1A",
+      "actual_start_time": "2025-10-20 11:16:18",
+      "actual_end_time": "2025-10-20 11:20:01",
+      "produce_status": 2,
+      "request_qty": 6.0,
+      "finish_qty": 6.0
+    },
+    "materials_prep_status": []
+  }
+}

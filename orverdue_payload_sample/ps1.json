@@ -1,0 +1,707 @@
+{
+  "as_of": "2025-10-20 16:32:56 (Asia/Taipei)",
+  "day_start": "2025-10-20 00:00:00 (Asia/Taipei)",
+  "day_end": "2025-10-20 24:00:00 (Asia/Taipei)",
+  "task": {
+    "kanban_id": "S-W-20250923163431437-0001",
+    "work_order_id": "T10-000631365",
+    "part_no": "P32740SBMUB",
+    "work_center_id": "A001",
+    "process_id": "A001",
+    "process_seq": 10,
+    "expected_start_time": "2025-10-20 09:37:12",
+    "actual_start_time": "nan",
+    "produce_status": 0,
+    "flags": {
+      "planned_today_flag": 1,
+      "overdue_not_started_so_far_flag": 1,
+      "started_on_time_today_flag": 0,
+      "started_late_today_flag": 0
+    }
+  },
+  "context": {
+    "upstream_status": {
+      "work_order_id": "T10-000631365",
+      "kanban_id": "S-W-20250923163431437-0001",
+      "process_id": null,
+      "process_seq": null,
+      "work_center_id": null,
+      "actual_start_time": null,
+      "actual_end_time": null,
+      "produce_status": null,
+      "finish_qty": null
+    },
+    "materials_prep_status": [
+      {
+        "material_kanban_id": "S-M-20250923163431437-0054",
+        "part_no": "30200640",
+        "part_name": "後搖臂總成L",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "筠臻",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0080",
+        "part_no": "30200641",
+        "part_name": "後搖臂總成R",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "筠臻",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0108",
+        "part_no": "30200642",
+        "part_name": "前搖臂總成L",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "筠臻",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0123",
+        "part_no": "30200643",
+        "part_name": "前搖臂總成R",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "筠臻",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0148",
+        "part_no": "30258063",
+        "part_name": "車架組",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "堉盛",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0151",
+        "part_no": "30500202",
+        "part_name": "車蓋組",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "裝配一線",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0163",
+        "part_no": "30515989",
+        "part_name": "輪弧蓋R",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "協啟",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0166",
+        "part_no": "30515990",
+        "part_name": "輪弧蓋L",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "協啟",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0169",
+        "part_no": "32100433",
+        "part_name": "升降座椅組",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "裝配一線",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0233",
+        "part_no": "32600624",
+        "part_name": "後輪總成(PU密度加強115kg)",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "筠臻",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0240",
+        "part_no": "33500792",
+        "part_name": "操縱桿總成",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "裝配一線",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0030",
+        "part_no": "41200574",
+        "part_name": "鎖定板",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "鐘昱",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0045",
+        "part_no": "41200591",
+        "part_name": "控制器固定板",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "金成峰",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0001",
+        "part_no": "41300319",
+        "part_name": "座椅撐管",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "貞得",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:53"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0031",
+        "part_no": "41300512",
+        "part_name": "固定塊",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "貞得",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0009",
+        "part_no": "41700223",
+        "part_name": "避震器",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "加廣",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0008",
+        "part_no": "43600515",
+        "part_name": "管塞",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "森山",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0007",
+        "part_no": "43600540",
+        "part_name": "1/4快速扣座",
+        "finish_qty": 0.0,
+        "request_qty": 90.0,
+        "supplier_name": "郁功",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:53"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0012",
+        "part_no": "43600608",
+        "part_name": "後蓋",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "威逢",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0014",
+        "part_no": "43700192",
+        "part_name": "扣帶",
+        "finish_qty": 0.0,
+        "request_qty": 90.0,
+        "supplier_name": "進佳",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0024",
+        "part_no": "43700209",
+        "part_name": "黏扣帶(公)",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "進佳",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0026",
+        "part_no": "43700210",
+        "part_name": "黏扣帶(母)",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "進佳",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0003",
+        "part_no": "43700370",
+        "part_name": "連接帶",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "創薪",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:53"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0005",
+        "part_no": "44600508",
+        "part_name": "側蓋L",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "綸泰",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:53"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0006",
+        "part_no": "44600509",
+        "part_name": "側蓋R",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "綸泰",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:53"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0018",
+        "part_no": "50104021",
+        "part_name": "P頭十字螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "錞慶",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0025",
+        "part_no": "50105022",
+        "part_name": "P頭+螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0011",
+        "part_no": "50604020",
+        "part_name": "大扁頭十字螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 360.0,
+        "supplier_name": "得譽",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0010",
+        "part_no": "50605014",
+        "part_name": "大扁頭 + 字螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "山鐵",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0041",
+        "part_no": "50706004",
+        "part_name": "止付螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0049",
+        "part_no": "51206011",
+        "part_name": "半圓頭內六角螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 90.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0028",
+        "part_no": "51210010",
+        "part_name": "半圓頭內六角螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0032",
+        "part_no": "51210014",
+        "part_name": "半圓頭內六角頭螺絲合金鋼",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "山鐵",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0052",
+        "part_no": "51210017",
+        "part_name": "半圓頭內六角螺絲",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0042",
+        "part_no": "53105014",
+        "part_name": "平華司",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0027",
+        "part_no": "53110018",
+        "part_name": "平華司",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0053",
+        "part_no": "53110040",
+        "part_name": "尼龍平華司",
+        "finish_qty": 0.0,
+        "request_qty": 240.0,
+        "supplier_name": "得譽",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0033",
+        "part_no": "53113001",
+        "part_name": "壓花華司",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0023",
+        "part_no": "53205007",
+        "part_name": "尼龍螺帽",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "得譽",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0050",
+        "part_no": "53206010",
+        "part_name": "尼龍螺帽",
+        "finish_qty": 0.0,
+        "request_qty": 90.0,
+        "supplier_name": "得譽",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0029",
+        "part_no": "53210007",
+        "part_name": "尼龍螺帽",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0040",
+        "part_no": "53700503",
+        "part_name": "C扣環",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0043",
+        "part_no": "53800022",
+        "part_name": "拉釘 5-6B",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "易龍",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0002",
+        "part_no": "54200011",
+        "part_name": "插銷",
+        "finish_qty": 0.0,
+        "request_qty": 120.0,
+        "supplier_name": "鍾和",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:53"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0015",
+        "part_no": "61210005",
+        "part_name": "配線固定座",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "凱士士",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0256",
+        "part_no": "62012074",
+        "part_name": "傳動軸組 L",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "利茗",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0259",
+        "part_no": "62022074",
+        "part_name": "傳動軸組 R",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "利茗",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0020",
+        "part_no": "63200088",
+        "part_name": "電瓶連接線",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "創薪",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0004",
+        "part_no": "63334501",
+        "part_name": "控制器訊號傳輸線",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "PG",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:53"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0262",
+        "part_no": "63370491",
+        "part_name": "交叉桿座椅控制線",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "永峻",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0017",
+        "part_no": "63600008",
+        "part_name": "充電器電源線",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "厚達",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0021",
+        "part_no": "63600051",
+        "part_name": "電源連接線",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "創薪",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0051",
+        "part_no": "64220005",
+        "part_name": "控制器(分離式)",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "PG",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0016",
+        "part_no": "65100016",
+        "part_name": "充電器(5A)(無AC線)",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "UPG",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0019",
+        "part_no": "66110026",
+        "part_name": "鉛酸蓄電池",
+        "finish_qty": 0.0,
+        "request_qty": 60.0,
+        "supplier_name": "廣隆",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0034",
+        "part_no": "70171644",
+        "part_name": "外箱(含把手/附圍板)",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "品佳",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0035",
+        "part_no": "70332803",
+        "part_name": "內盒(操縱桿用)",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "品佳",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0037",
+        "part_no": "72100001",
+        "part_name": "氣泡紙",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "億堡",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0036",
+        "part_no": "72100009",
+        "part_name": "珍珠紙",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "億堡",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0044",
+        "part_no": "72224001",
+        "part_name": "塑膠袋(夾鏈袋)",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "億堡",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0022",
+        "part_no": "72700004",
+        "part_name": "紮線帶",
+        "finish_qty": 0.0,
+        "request_qty": 360.0,
+        "supplier_name": "捷諾克",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0038",
+        "part_no": "73135001",
+        "part_name": "包裝用墊塊",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "申富",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0013",
+        "part_no": "75134601",
+        "part_name": "離合器貼紙",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "益榮",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0046",
+        "part_no": "75235001",
+        "part_name": "操作說明書",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "益榮",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0039",
+        "part_no": "75271286",
+        "part_name": "簡易爆炸圖清單",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "益榮",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0047",
+        "part_no": "75271392",
+        "part_name": "保固頁",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "益榮",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      },
+      {
+        "material_kanban_id": "S-M-20250923163431437-0048",
+        "part_no": "75400018",
+        "part_name": "警告吊牌",
+        "finish_qty": 0.0,
+        "request_qty": 30.0,
+        "supplier_name": "益榮",
+        "to_kanban_produce": "S-W-20250923163431437-0001",
+        "load_dts": "2025-10-20 22:05:54"
+      }
+    ]
+  }
+}
