@@ -48,7 +48,7 @@ def _load_rag_conf() -> Dict[str, Any]:
 
     return {
         "api": os.getenv("RAG_SUMMARY_API") or sec.get("api", "http://000.00.00.0:8060/rag_summary"),
-        "timeout": int(os.getenv("RAG_TIMEOUT") or sec.get("timeout", "60")),
+        "timeout": int(os.getenv("RAG_TIMEOUT") or sec.get("timeout", "90")),
     }
 
 # ----------------------------
@@ -66,6 +66,7 @@ LONG_TERM_GUIDE = (
     "Jidoka 自働化、標準作業/作業設計、目視化/安燈、工序與瓶頸再配置、供應商開發與交期可靠度、"
     "看板政策（最小批量/安全庫存/補貨規則）等。"
     "輸出格式：每條前綴「• 」，純文字，不要附上條號、不要重覆 LLM 的短期建議。"
+    "限制：不得討論設計/研發/LPPD/總工程師等研發治理內容，僅針對製造現場（工作中心/工序/排程/人力/設備/品質放行/拉式補貨）提出長期改善。"
 )
 
 def _build_user_prompt(analysis: Dict[str, Any], payload: Optional[Dict[str, Any]] = None) -> str:
@@ -88,7 +89,7 @@ def _build_user_prompt(analysis: Dict[str, Any], payload: Optional[Dict[str, Any
 # ----------------------------
 # 呼叫 RAG API
 # ----------------------------
-def _post_rag(api: str, system_prompt: str, user_prompt: str, timeout: int = 60) -> Dict[str, Any]:
+def _post_rag(api: str, system_prompt: str, user_prompt: str, timeout: int = 90) -> Dict[str, Any]:
     payload = {
         "system_prompt": system_prompt,
         "user_prompt": user_prompt,

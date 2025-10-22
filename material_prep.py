@@ -2,7 +2,6 @@
 from typing import List, Dict, Any
 from decimal import Decimal
 from sqlalchemy import text
-from datetime import datetime
 
 # ----------------------------
 # 取得看板所需物料備料進度列表（從資料庫查）
@@ -18,7 +17,7 @@ def get_material_production_progress_list_of_kanban(conn, kanbanId: str) -> List
     回傳：
         list[dict]，欄位包含：
         material_kanban_id, part_no, part_name, finish_qty(float), request_qty(float),
-        supplier_name, to_kanban_produce, load_dts(ISO 字串)
+        supplier_name, to_kanban_produce
     """
     if not kanbanId:
         print(kanbanId)
@@ -32,8 +31,7 @@ def get_material_production_progress_list_of_kanban(conn, kanbanId: str) -> List
             finish_qty,
             request_qty,
             supplier_name,
-            to_kanban_produce,
-            load_dts
+            to_kanban_produce
         FROM kanban_material_prep_status
         WHERE to_kanban_produce = :kanbanId
         ORDER BY part_no, material_kanban_id
@@ -54,10 +52,6 @@ def get_material_production_progress_list_of_kanban(conn, kanbanId: str) -> List
             v = d.get(k)
             if isinstance(v, Decimal):
                 d[k] = float(v)
-        # datetime -> 字串（保留 UTC；若要轉台北，請在呼叫端統一處理）
-        ts = d.get("load_dts")
-        if isinstance(ts, datetime):
-            d["load_dts"] = ts.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
         items.append(d)
 
     return items

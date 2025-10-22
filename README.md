@@ -21,3 +21,7 @@ pip install streamlit sqlalchemy pymysql pandas openai
         3.	process_seq：同一製程裡，依製程序號由小到大，符合工藝路徑的先後。
         4.	expected_start_time：最後用今天的計畫開工時間排序，讓越早該開工的越前面。
 
+### Run
+```
+streamlit run app_today.py
+```

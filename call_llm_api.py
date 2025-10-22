@@ -77,13 +77,13 @@ def _load_llm_conf() -> Dict[str, Any]:
     api_key = os.getenv("OPENAI_API_KEY") or sec.get("api_key") or ""
     base_url = os.getenv("OPENAI_BASE_URL") or sec.get("base_url") or "http://000.00.00.00:8083/v1"
     model = os.getenv("LLM_MODEL") or sec.get("model") or "google/gemma-3-4b-it"
-    timeout = int(os.getenv("LLM_TIMEOUT") or sec.get("timeout", "60"))
+    timeout = int(os.getenv("LLM_TIMEOUT") or sec.get("timeout", "90"))
     return {"api_key": api_key, "base_url": base_url, "model": model, "timeout": timeout}
 
 
 def _get_client(conf: Optional[Dict[str, Any]] = None) -> OpenAI:
     conf = conf or _load_llm_conf()
-    return OpenAI(api_key=conf.get("api_key"), base_url=conf.get("base_url"), timeout=conf.get("timeout", 60))
+    return OpenAI(api_key=conf.get("api_key"), base_url=conf.get("base_url"), timeout=conf.get("timeout", 90))
 
 
 #
@@ -347,7 +347,7 @@ def analyze_overdue_with_llm(
     }
     """
     conf = _load_llm_conf()
-    client = client or _get_client(conf)
+    client = client or _get_client(conf).with_options(timeout=90.0) 
     model = model or conf.get("model")
 
     sys_prompt = build_system_prompt(system_prompt)
@@ -417,7 +417,7 @@ if __name__ == "__main__":
             "produce_status": 0,
             "flags": {
                 "planned_today_flag": 1,
-                "overdue_not_started_so_far_flag": 1,
+                "overdue_4h_not_started_flag": 1,
                 "started_on_time_today_flag": 0,
                 "started_late_today_flag": 0
             }

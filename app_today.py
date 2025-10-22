@@ -275,7 +275,7 @@ with frow[2]:
 with frow[3]:
     filter_wo = st.multiselect("工單 Work Order", options=wo_opts, default=[])
 with frow[4]:
-    only_overdue = st.toggle("只看逾期未開工", value=False)
+    only_overdue = st.toggle("只看逾期四小時未開工", value=False)
 
 # ----------------------------
 # 5) KPI 卡片
@@ -309,9 +309,9 @@ if not summary_df.empty:
         )
     with kpi5:
         st.metric(
-            label="逾期未開工",
-            value=int(s.get("overdue_not_started_so_far", 0)),
-            help="截至目前時間，計畫時間已到（expected_start_time ≤ 現在）但尚未實際開工（actual_start_time 為空）的看板數。"
+            label="逾期四小時未開工",
+            value=int(s.get("overdue_4h_not_started", 0)),
+            help="截至目前時間，已超過計畫開工時間 4 小時且仍未開工（expected_start_time + 4 小時 ≤ 現在 且 actual_start_time 為空）。"
         )
     with kpi6:
         st.metric(
@@ -342,8 +342,8 @@ if filter_part:
     df = df[df["part_no"].isin(filter_part)]
 if filter_wo:
     df = df[df["work_order_id"].isin(filter_wo)]
-if only_overdue and "overdue_not_started_so_far_flag" in df:
-    df = df[df["overdue_not_started_so_far_flag"] == 1]
+if only_overdue:
+    df = df[df["overdue_4h_not_started_flag"] == 1]
 
 # 欄位改為繁體中文（僅對已存在欄位進行重命名）
 zh_map = {
@@ -358,7 +358,7 @@ zh_map = {
     "produce_status": "生產狀態",
     "planned_today_flag": "今日計畫",
     "started_today_flag": "今日實際開工",
-    "overdue_not_started_so_far_flag": "逾期未開工",
+    "overdue_4h_not_started_flag": "逾期四小時未開工",
     "started_on_time_today_flag": "準時開工",
     "started_late_today_flag": "延遲開工"
 }
@@ -366,7 +366,7 @@ display_cols_order = [
     "kanban_id","work_order_id","part_no","work_center_id",
     "process_id","process_seq","expected_start_time","actual_start_time",
     "planned_today_flag","started_today_flag","started_on_time_today_flag",
-    "started_late_today_flag","overdue_not_started_so_far_flag","produce_status"
+    "started_late_today_flag","overdue_4h_not_started_flag","produce_status"
 ]
 
 # 排序欄位存在才排序（穩定且一致）
@@ -374,8 +374,7 @@ sort_cols = [c for c in ["work_center_id", "process_id", "process_seq", "expecte
 df_sorted = df.sort_values(sort_cols, na_position="last") if sort_cols else df
 
 st.subheader("今日看板明細")
-st.caption("顏色：紅=逾期未開工；綠=準時；黃=延遲")
-
+st.caption("顏色：紅=逾期四小時未開工；綠=準時；黃=延遲")
 
 # ---------------- 分頁狀態（移到表格上方計算，控制在表格下方）----------------
 # 以 session_state 記住頁碼與每頁筆數（避免換頁回跳）
@@ -404,11 +403,11 @@ display_cols = [c for c in display_cols_order if c in df_sorted.columns] or list
 df_page = df_sorted.iloc[start:end][display_cols]
 df_display = df_page.rename(columns={k: v for k, v in zh_map.items() if k in display_cols})
 
-# 高亮規則（沿用原邏輯）
+# 高亮規則
 def highlight_row(row):
     """
     根據旗標欄位上色。支援英/中文欄位名稱：
-      - overdue_not_started_so_far_flag / 逾期未開工  -> 紅
+      - overdue_4h_not_started_flag / 逾期四小時未開工  -> 紅
       - started_on_time_today_flag       / 準時開工    -> 綠
       - started_late_today_flag          / 延遲開工    -> 黃
     """
@@ -419,7 +418,7 @@ def highlight_row(row):
         except Exception:
             return 1 if str(val).strip() in ("1", "True", "true", "Y") else 0
     
-    overdue = get_flag(row, "overdue_not_started_so_far_flag", "逾期未開工")
+    overdue = get_flag(row, "overdue_4h_not_started_flag", "逾期四小時未開工")
     ontime  = get_flag(row, "started_on_time_today_flag", "準時開工")
     late    = get_flag(row, "started_late_today_flag", "延遲開工")
 
@@ -442,7 +441,7 @@ selection = st.dataframe(
 )
 
 # 使用說明
-st.caption("💡 在表格內點選任一列即可分析；目前僅針對『逾期未開工』的列產生分析。")
+st.caption("💡 在表格內點選任一列即可分析；目前僅針對『逾期四小時未開工』的列產生分析。")
 
 # 取得選取結果：支援 st.dataframe 直接回傳或經由 session_state 取得
 sel_rows = []
@@ -518,12 +517,12 @@ if sel_rows:
             st.session_state.pop("last_ai_key", None)
         # 僅針對逾期列
         try:
-            overdue_flag = int(row.get("overdue_not_started_so_far_flag", 0))
+            overdue_flag = int(row.get("overdue_4h_not_started_flag", 0))
         except Exception:
-            overdue_flag = 1 if str(row.get("overdue_not_started_so_far_flag", "")).strip() in ("1","True","true","Y") else 0
+            overdue_flag = 1 if str(row.get("overdue_4h_not_started_flag", "")).strip() in ("1","True","true","Y") else 0
 
         if overdue_flag != 1:
-            st.info("僅針對『逾期未開工』的列提供分析。請選取紅色高亮列。")
+            st.info("僅針對『逾期四小時未開工』的列提供分析。請選取紅色高亮列。")
         else:
             with engine.connect() as conn:
                 upstream = fetch_prev_process_and_upstream(conn, row)
@@ -555,26 +554,6 @@ if sel_rows:
                 lps_engine = create_engine(lps_DB_URL, pool_pre_ping=True)
                 with lps_engine.connect() as supp_conn:
                     material_prep_list = get_material_production_progress_list_of_kanban(supp_conn, kanban_id_val)
-
-            # 將物料清單的 load_dts 視為 UTC，轉為顯示時區（例如 Asia/Taipei）以便前端顯示
-            if material_prep_list:
-                for _item in material_prep_list:
-                    ts = _item.get("load_dts")
-                    if ts is None or ts == "":
-                        continue
-                    try:
-                        s = pd.to_datetime(ts, errors="coerce")
-                        if pd.isna(s):
-                            continue
-                        # 若為 naive，先視為 UTC，再轉 display_tz；若已有 tz，直接轉 display_tz
-                        if getattr(s, "tzinfo", None) is None:
-                            s = s.tz_localize("UTC").tz_convert(display_tz)
-                        else:
-                            s = s.tz_convert(display_tz)
-                        _item["load_dts"] = s.strftime("%Y-%m-%d %H:%M:%S")
-                    except Exception:
-                        # 任何轉換失敗則維持原值
-                        pass
             
             payload = {
                 "as_of": asof_str,
@@ -592,7 +571,7 @@ if sel_rows:
                     "produce_status": int(row.get("produce_status",0)) if pd.notna(row.get("produce_status")) else None,
                     "flags": {
                         "planned_today_flag": int(row.get("planned_today_flag",0)),
-                        "overdue_not_started_so_far_flag": int(row.get("overdue_not_started_so_far_flag",0)),
+                        "overdue_4h_not_started_flag": int(row.get("overdue_4h_not_started_flag", 0)),
                         "started_on_time_today_flag": int(row.get("started_on_time_today_flag",0)),
                         "started_late_today_flag": int(row.get("started_late_today_flag",0))
                     }
@@ -638,7 +617,7 @@ with tabs[0]:
             key_from_payload = ""
         st.session_state["last_ai_key"] = current_row_key or key_from_payload
     elif run and not current_payload:
-        st.warning("請先在表格中選取一列（逾期未開工）以產生分析 Payload。")
+        st.warning("請先在表格中選取一列（逾期四小時未開工）以產生分析 Payload。")
 
     result = st.session_state.get("last_ai_result")
     if result:
@@ -732,7 +711,7 @@ with tabs[1]:
     if current_payload:
         st.code(json.dumps(_json_safe(current_payload), ensure_ascii=False, indent=2), language="json")
     else:
-        st.info("尚未產生 Payload。請在上方表格選取一列（逾期未開工）以建立分析資料。")
+        st.info("尚未產生 Payload。請在上方表格選取一列（逾期四小時未開工）以建立分析資料。")
 
 # # ----------------------------
 # # 7) 側邊工具
