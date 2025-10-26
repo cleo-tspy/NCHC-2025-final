@@ -1,0 +1,76 @@
+Traceback (most recent call last):
+  File "/Users/peiyutsai/programming/NCHC-2025-final/scripts/process_payloads.py", line 200, in <module>
+    if __name__ == "__main__":
+        ^^^^^^
+  File "/Users/peiyutsai/programming/NCHC-2025-final/scripts/process_payloads.py", line 156, in main
+    t0 = time.perf_counter()
+              ~~~~~~~~~~~~^^
+  File "/Users/peiyutsai/programming/NCHC-2025-final/call_llm_api.py", line 375, in analyze_overdue_with_llm
+    result = client.chat.completions.create(
+        model=model,
+    ...<2 lines>...
+        stream=False,
+    )
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/openai/resources/chat/completions/completions.py", line 1156, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<46 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+        request,
+        stream=stream or self._should_stream_response_body(request=request),
+        **kwargs,
+    )
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 136, in handle_request
+    raise exc
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+        self.READ_NUM_BYTES, timeout=timeout
+    )
+  File "/Users/peiyutsai/programming/NCHC-2025-final/.venv/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^
+KeyboardInterrupt
