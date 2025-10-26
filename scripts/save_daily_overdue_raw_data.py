@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 抓取今日「逾期未開工」看板，
-條件 overdue_4h_not_started_flag = 1
+條件 overdue_not_started_so_far_flag = 1
 為每筆建立 payload 並輸出檔案（Phase 1）。
 
 依賴：
@@ -16,7 +16,8 @@
 - data/daily/YYYYMMDD/raw_payload_YYYYMMDD.jsonl
 
 執行：
-  $ python scripts/save_daily_overdue_raw_data.py >> ./data/daily/{ymd}/daily_ai.log 2>&1
+    $ python scripts/save_daily_overdue_raw_data.py >> ./data/daily/{ymd}/daily_ai.log 2>&1
+    python scripts/save_daily_overdue_raw_data.py >> ./data/daily/20251023/daily_ai.log 2>&1
 
 """
 from __future__ import annotations
@@ -119,12 +120,12 @@ def main():
     supp_conf = cp["database_leanplay_supp"]
     supp_engine = create_engine(build_db_url(supp_conf), pool_pre_ping=True)
 
-    # 拉「今日逾期未開工」：選逾期超過4小時的
+    # 拉「今日逾期未開工」：選逾期未開工的
     sql = text("""
     SELECT *
     FROM v_today_kanban_start_detail
     WHERE planned_today_flag = 1
-      AND overdue_4h_not_started_flag = 1
+      AND overdue_not_started_so_far_flag = 1
     ORDER BY work_center_id, process_id, process_seq, expected_start_time
     """)
     df = pd.read_sql(sql, engine)
@@ -183,7 +184,7 @@ def main():
                         "produce_status": int(row.get("produce_status") or 0) if pd.notna(row.get("produce_status")) else None,
                         "flags": {
                             "planned_today_flag": int(row.get("planned_today_flag") or 0),
-                            "overdue_4h_not_started_flag": int(row.get("overdue_4h_not_started_flag") or 0),
+                            "overdue_not_started_so_far_flag": int(row.get("overdue_not_started_so_far_flag") or 0),
                             "started_on_time_today_flag": int(row.get("started_on_time_today_flag") or 0),
                             "started_late_today_flag": int(row.get("started_late_today_flag") or 0),
                         }
