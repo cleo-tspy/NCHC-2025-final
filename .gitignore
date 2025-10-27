@@ -2,3 +2,4 @@
 fix.md
 config.ini
 *.pyc
+.venv/

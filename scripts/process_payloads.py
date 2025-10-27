@@ -9,8 +9,7 @@
   # 或
   $ python scripts/process_payloads.py --raw data/daily/{ymd}/raw_payload_{ymd}.jsonl
 
-  $ python scripts/process_payloads.py --date {ymd} --sample 300 >> ./data/daily/{ymd}/daily_ai_process.log 2>&1
-  python scripts/process_payloads.py --date 20251023 --sample 300 >> ./data/daily/20251023/daily_ai_process.log 2>&1
+  $ python scripts/process_payloads.py --date {ymd} --sample 300
 
 選項：
   --date YYYYMMDD     指定日期（預設為今天，Asia/Taipei）
