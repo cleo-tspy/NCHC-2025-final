@@ -112,7 +112,7 @@ def main():
 
     cp, _ = load_config()
 
-    # DB: 主資料庫（讀 v_today_kanban_start_detail）
+    # DB: 主資料庫（讀 metric_today_kanban_start_detail）
     db_conf = cp["database"]
     engine = create_engine(build_db_url(db_conf), pool_pre_ping=True)
 
@@ -123,7 +123,7 @@ def main():
     # 拉「今日逾期未開工」：選逾期未開工的
     sql = text("""
     SELECT *
-    FROM v_today_kanban_start_detail
+    FROM metric_today_kanban_start_detail
     WHERE planned_today_flag = 1
       AND overdue_not_started_so_far_flag = 1
     ORDER BY work_center_id, process_id, process_seq, expected_start_time

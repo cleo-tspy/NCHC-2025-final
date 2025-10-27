@@ -6,7 +6,7 @@
 
 ## 內容
 - `save_daily_overdue_raw_data.py`（**Phase 1：只組資料，不跑 AI**）
-  - 讀取資料庫（`v_today_kanban_start_detail`）取得**今日逾期未開工**看板。
+  - 讀取資料庫（`metric_today_kanban_start_detail`）取得**今日逾期未開工**看板。
   - 製作每筆 **payload**（含上游製程、物料備料狀態），並輸出：
     - `data/daily/YYYYMMDD/raw_YYYYMMDD.csv`（方便人工快看）
     - `data/daily/YYYYMMDD/raw_payload_YYYYMMDD.jsonl`（供 Phase 2 使用）
@@ -46,7 +46,7 @@
 
 ### `config.ini` 需求段落（摘要）
 ```ini
-[database]                 ; 主資料庫（含 v_today_kanban_start_detail）
+[database]                 ; 主資料庫（含 metric_today_kanban_start_detail）
 # driver = mysql+pymysql
 # host = ...
 # port = ...

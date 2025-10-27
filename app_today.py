@@ -189,8 +189,8 @@ except Exception:
 @st.cache_data(ttl=60)
 def load_today_views():
     with engine.connect() as conn:
-        summary = pd.read_sql("SELECT * FROM v_today_kanban_planned_vs_actual", conn)
-        detail  = pd.read_sql("SELECT * FROM v_today_kanban_start_detail", conn)
+        summary = pd.read_sql("SELECT * FROM metric_today_kanban_planned_vs_actual", conn)
+        detail  = pd.read_sql("SELECT * FROM metric_today_kanban_start_detail", conn)
     return summary, detail
 
 
