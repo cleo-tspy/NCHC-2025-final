@@ -17,7 +17,7 @@
 
 執行：
     $ python scripts/save_daily_overdue_raw_data.py >> ./data/daily/{ymd}/daily_ai.log 2>&1
-    python scripts/save_daily_overdue_raw_data.py >> ./data/daily/20251023/daily_ai.log 2>&1
+    sc >> ./data/daily/20251023/daily_ai.log 2>&1
 
 """
 from __future__ import annotations
@@ -128,7 +128,21 @@ def main():
       AND overdue_not_started_so_far_flag = 1
     ORDER BY work_center_id, process_id, process_seq, expected_start_time
     """)
-    df = pd.read_sql(sql, engine)
+    with engine.begin() as conn:
+        conn.execute(text("SET time_zone = '+00:00'"))
+        df = pd.read_sql(sql, conn)
+
+    def to_tpe_str(series):
+        # series 來自 MySQL TIMESTAMP（已把 session 設為 UTC）
+        # 先當作 UTC 解析，再轉 TPE
+        s = pd.to_datetime(series, errors="coerce", utc=True)
+        return s.dt.tz_convert(tz).dt.strftime("%Y-%m-%d %H:%M:%S")
+
+    # 轉 main df 的欄位
+    for col in ("expected_start_time", "actual_start_time"):
+        if col in df.columns:
+            df[col] = to_tpe_str(df[col])
+                  
     raw_csv = out_dir / f"raw_{ymd}.csv"
     df.to_csv(raw_csv, index=False, encoding="utf-8-sig")
 
@@ -139,11 +153,13 @@ def main():
             try:
                 # 取得上游與物料
                 with engine.connect() as conn:
+                    conn.execute(text("SET time_zone = '+00:00'"))
                     upstream = fetch_prev_process_and_upstream(conn, row)
                 mats = []
                 kanban_id = row.get("kanban_id")
                 if kanban_id:
                     with supp_engine.connect() as sconn:
+                        sconn.execute(text("SET time_zone = '+00:00'"))
                         mats = get_material_production_progress_list_of_kanban(sconn, kanban_id)
 
                 # 若是第一站且上游無製程資訊，視為沒有上游
@@ -158,12 +174,9 @@ def main():
                 for tcol in ("actual_start_time","actual_end_time"):
                     ts = (upstream or {}).get(tcol)
                     if ts:
-                        s = pd.to_datetime(ts, errors="coerce")
-                        if s is not pd.NaT:
-                            if getattr(s, "tzinfo", None) is None:
-                                s = s.tz_localize("UTC").tz_convert(tz)
-                            else:
-                                s = s.tz_convert(tz)
+                        s = pd.to_datetime(ts, errors="coerce", utc=True) 
+                        if not pd.isna(s):
+                            s = s.tz_convert(tz)
                             upstream[tcol] = s.strftime("%Y-%m-%d %H:%M:%S")
 
 
