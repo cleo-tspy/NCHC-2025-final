@@ -11,8 +11,11 @@ import configparser
 from decimal import Decimal
 from datetime import datetime, date, time
 
-# ---- JSON 序列化助手：處理 Decimal / datetime / bytes / set ----
+
 def _json_default(o):
+    """
+    JSON 序列化助手
+    """
     if isinstance(o, Decimal):
         return float(o)
     if isinstance(o, (datetime, date, time)):
@@ -35,10 +38,11 @@ def _json_default(o):
 def _to_json_text(obj) -> str:
     return json.dumps(obj, ensure_ascii=False, indent=2, default=_json_default)
 
-# ----------------------------
-# 設定來源：環境變數優先、再讀 config.ini 的 [rag]
-# ----------------------------
+
 def _load_rag_conf() -> Dict[str, Any]:
+    """
+    # 設定來源：環境變數優先、再讀 config.ini 的 [rag]
+    """
     cfg_path = os.getenv("CONFIG_PATH")
     cfg = Path(cfg_path) if cfg_path else Path(__file__).resolve().parent / "config.ini"
     cp = configparser.ConfigParser()
@@ -70,6 +74,9 @@ LONG_TERM_GUIDE = (
 )
 
 def _build_user_prompt(analysis: Dict[str, Any], payload: Optional[Dict[str, Any]] = None) -> str:
+    """
+    根據 analysis 與（可選）payload 組裝 user prompt，嵌入 kanban_id 與 analysis JSON。
+    """
     kanban_id = ""
     if payload and isinstance(payload, dict):
         t = payload.get("task", {}) or {}
@@ -86,10 +93,10 @@ def _build_user_prompt(analysis: Dict[str, Any], payload: Optional[Dict[str, Any
         + LONG_TERM_GUIDE
     )
 
-# ----------------------------
-# 呼叫 RAG API
-# ----------------------------
 def _post_rag(api: str, system_prompt: str, user_prompt: str, timeout: int = 90) -> Dict[str, Any]:
+    """
+    呼叫 RAG API
+    """
     payload = {
         "system_prompt": system_prompt,
         "user_prompt": user_prompt,
@@ -111,6 +118,9 @@ def _post_rag(api: str, system_prompt: str, user_prompt: str, timeout: int = 90)
     }
 
 def _split_bullets(text: str) -> List[str]:
+    """
+    將含條列符號的文字切成去重後的建議清單
+    """
     # 取每行前綴為「• 」或「- 」或「* 」的條列；並做簡單清洗
     items: List[str] = []
     for line in text.splitlines():
@@ -134,11 +144,9 @@ def _split_bullets(text: str) -> List[str]:
             uniq.append(it); seen.add(it)
     return uniq[:10]
 
-# ----------------------------
-# 對外主函式
-# ----------------------------
 def get_long_term_improvements(analysis: Dict[str, Any], payload: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """
+    主流程：組 Prompt → 呼叫 RAG → 解析為長期改善建議清單
     輸入：
       - analysis：call_llm_api.analyze_overdue_with_llm 的 analysis JSON
       - payload：可選，原始 payload（為了給出看板ID等脈絡）

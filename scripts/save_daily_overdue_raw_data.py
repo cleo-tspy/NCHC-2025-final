@@ -29,8 +29,6 @@ from typing import Any, Dict, List
 
 import pandas as pd
 from sqlalchemy import create_engine, text
-
-# --- 專案根路徑納入 sys.path，確保可匯入 prev_process / material_prep ---
 import sys
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:

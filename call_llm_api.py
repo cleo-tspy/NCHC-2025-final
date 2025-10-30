@@ -73,6 +73,9 @@ DEFAULT_USER_PROMPT = (
 # -------- Config & Client --------
 
 def _load_llm_conf() -> Dict[str, Any]:
+    """
+    讀取 LLM 設定來源（環境變數優先，其次為 config.ini）。
+    """
     cfg_path = os.getenv("CONFIG_PATH")
     cfg = Path(cfg_path) if cfg_path else Path(__file__).resolve().parent / "config.ini"
     cp = configparser.ConfigParser()
@@ -87,6 +90,15 @@ def _load_llm_conf() -> Dict[str, Any]:
 
 
 def _get_client(conf: Optional[Dict[str, Any]] = None) -> OpenAI:
+    """
+    以給定或預設設定建立 OpenAI 相容的 Client。
+    參數：
+        conf (dict | None): 若為 None，將呼叫 `_load_llm_conf()` 載入設定。
+    回傳：
+        OpenAI: 已套用 api_key、base_url、timeout 的用戶端物件。
+    可能例外：
+        - 由 openai 套件在初始化或連線時拋出的各種錯誤（例如端點不正確）。
+    """
     conf = conf or _load_llm_conf()
     return OpenAI(api_key=conf.get("api_key"), base_url=conf.get("base_url"), timeout=conf.get("timeout", 90))
 
@@ -96,6 +108,9 @@ def _get_client(conf: Optional[Dict[str, Any]] = None) -> OpenAI:
 
 # 將 Decimal / datetime 等轉為可序列化型別
 def _json_default(o):
+    """
+    `json.dumps(default=...)` 的輔助序列化器。
+    """
     if isinstance(o, Decimal):
         return float(o)
     if isinstance(o, (datetime, date, time)):
@@ -110,19 +125,41 @@ def _json_default(o):
             return str(o)
     if isinstance(o, set):
         return list(o)
-    # 最後手段：可讀字串
     try:
         return str(o)
     except Exception:
         raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
 
 def _safe_float(x):
+    """
+    將輸入嘗試轉為 `float`；若失敗則回傳 `None`。
+    參數：
+        x (Any): 欲轉換的值，允許數字或數字字串。
+    回傳：
+        float | None: 轉換成功則為浮點數，否則為 None。
+    """
     try:
         return float(x)
     except Exception:
         return None
 
 def _compute_meta(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    從 `payload` 推導分析所需的旗標（meta）。
+    輸入：
+        payload (dict): 需包含 `task` 與 `context` 結構，且可能具有
+            `context.upstream_status` 與 `context.materials_prep_status`。
+    
+    計算規則：
+        - first_station: `task.process_seq == 10` 且 `upstream_status.process_id/seq` 皆為空。
+        - upstream_done: `upstream_status.produce_status == 2` 或 `upstream_status.actual_end_time` 存在。
+        - materials_na: `materials_prep_status` 為空陣列 `[]`（代表「本站無備料指示」）。
+        - materials_ready: `materials_prep_status` 每一項皆滿足 `finish_qty >= request_qty`。
+    回傳：
+        dict: 形如 `{"first_station": bool, "upstream_done": bool, "materials_na": bool, "materials_ready": bool}`。
+    備註：
+        - 這些旗標用於 Prompt 與前端顯示的輔助判斷，不取代正式業務規則。
+    """
     task = (payload or {}).get("task", {}) or {}
     ctx = (payload or {}).get("context", {}) or {}
     up = ctx.get("upstream_status") or {}
@@ -166,10 +203,23 @@ def _compute_meta(payload: Dict[str, Any]) -> Dict[str, Any]:
 # -------- Prompt builders --------
 
 def build_system_prompt(custom: Optional[str] = None) -> str:
+    """
+    取得送至模型的 system prompt。
+    參數：
+        custom (str | None): 自訂 system prompt。若提供，將回傳其 `strip()` 後的內容。
+    回傳：
+        str: 若 `custom` 為空則回傳 `DEFAULT_SYSTEM_PROMPT`，否則回傳自訂內容。
+    """
     return custom.strip() if custom else DEFAULT_SYSTEM_PROMPT
 
 
 def build_user_prompt(payload: Dict[str, Any], custom: Optional[str] = None) -> str:
+    """
+    依 `payload` 組合標準化的 user prompt；若提供 `custom`，則直接回傳 `custom`。
+    行為：
+        - 呼叫 `_compute_meta(payload)` 取得 `meta`，並將 `task/context/meta` 以美化 JSON（保留非 ASCII）嵌入 `DEFAULT_USER_PROMPT`。
+        - 使用 `_json_default` 確保日期、小數等型別可序列化。
+    """
     if custom:
         return custom
     meta = _compute_meta(payload)
@@ -190,7 +240,13 @@ def build_user_prompt(payload: Dict[str, Any], custom: Optional[str] = None) -> 
 # -------- Output parsing --------
 
 def _extract_json_block(text: str) -> Optional[str]:
-    """優先擷取 ```json ... ``` 中的 JSON；若找不到，退而求其次抓第一個成對的大括號。"""
+    """
+    從模型輸出文本中擷取第一個 JSON 區塊字串。
+    
+    優先策略：
+        1) 尋找第一個圍籬區塊 ```json ... ``` 並擷取其中的 `{ ... }`。
+        2) 若找不到，退回以全文中第一個 `{` 到最後一個 `}` 之間的內容。
+    """
     fence = re.search(r"```json\s*(\{[\s\S]*?\})\s*```", text, flags=re.IGNORECASE)
     if fence:
         return fence.group(1)
@@ -203,7 +259,16 @@ def _extract_json_block(text: str) -> Optional[str]:
 
 
 def _normalize_analysis(payload: Dict[str, Any], obj: Dict[str, Any]) -> Dict[str, Any]:
-    """填補缺欄位 + 修正 evidence（硬性灌入 payload 的 context）。"""
+    """
+    將模型回傳的 analysis 物件補齊並正規化，強制以 `payload.context` 覆寫 `evidence`。
+    
+    行為：
+        - 確保存在鍵：`root_causes`、`data_gaps`、`follow_up_queries`、`notes`。
+        - 對 `root_causes` 中每項：
+            * 保障欄位：`title`、`signals`（轉為字串陣列）、`evidence`（字典）、`confidence`（截斷於 [0,1]）。
+            * 將 `evidence.upstream_status` 與 `evidence.materials_prep_status` 覆寫為本次 `payload.context` 的真實值，避免模型遺漏或捏造。
+        - 若判定為第一站（`process_seq == 10` 且上游為空），當 `root_causes` 為空時自動加入「製程第一道工序，沒有前工序」的保底原因；若不為空，會於第一項 `signals` 增補說明。
+    """
     obj = obj or {}
     obj.setdefault("root_causes", [])
     obj.setdefault("data_gaps", [])
@@ -285,7 +350,15 @@ def _normalize_analysis(payload: Dict[str, Any], obj: Dict[str, Any]) -> Dict[st
 
 
 def parse_llm_output(payload: Dict[str, Any], text: str) -> Tuple[str, Dict[str, Any]]:
-    """回傳 (summary, analysis_json)。若無法解析 JSON，給出保底結構。"""
+    """
+    將模型純文字輸出解析為 `(summary, analysis)`。
+    流程：
+        1) `summary`：取第一個 ```json 區塊之前的文字，去除前綴（如「摘要：」）與冗詞（如「逾期未開工…」），並限制長度（約 400 字）。
+        2) `analysis`：以 `_extract_json_block` 擷取 JSON；解析成功後交由 `_normalize_analysis` 補齊與修正；若失敗則回傳預設骨架。
+        3) 文案微調：若偵測到 `payload.task.kanban_id`，將「任務 <id>」替換為「看板 <id>」。
+    回傳：
+        Tuple[str, dict]: (summary, analysis)。
+    """
     # 摘要：取第一個 ```json 區塊之前的文字，或全文（trim 後限 200 字）
     summary_part = text
     fence_pos = re.search(r"```json", text, flags=re.IGNORECASE)
@@ -333,23 +406,31 @@ def parse_llm_output(payload: Dict[str, Any], text: str) -> Tuple[str, Dict[str,
 # -------- Core API --------
 
 def analyze_overdue_with_llm(
-    payload: Dict[str, Any],
-    system_prompt: Optional[str] = None,
-    user_prompt: Optional[str] = None,
-    *,
-    model: Optional[str] = None,
-    temperature: float = 0.2,
-    stream: bool = False,
-    client: Optional[OpenAI] = None,
-) -> Dict[str, Any]:
+    payload: Dict[str, Any], system_prompt: Optional[str] = None, user_prompt: Optional[str] = None,
+    *, model: Optional[str] = None, temperature: float = 0.2, 
+    stream: bool = False, client: Optional[OpenAI] = None,) -> Dict[str, Any]:
     """
-    封裝呼叫 LLM 的主函式。
-
-    回傳：{
-      "summary": str,
-      "analysis": dict,   # 正規化後的 JSON 結果
-      "raw": str          # 原始文字輸出（保留以便除錯）
-    }
+    封裝一次完整的 LLM 呼叫流程：建構 Prompt → 呼叫模型 → 解析輸出 → 回傳結構化結果。
+    
+    參數：
+        payload (dict): 要分析的資料（含 task/context 等）。
+        system_prompt (str | None): 自訂 system prompt，預設為 `DEFAULT_SYSTEM_PROMPT`。
+        user_prompt (str | None): 自訂 user prompt，預設由 `build_user_prompt(payload)` 產生。
+        model (str | None): 模型名稱；預設取自設定檔。
+        temperature (float): 取樣溫度，預設 0.2。
+        stream (bool): 是否以串流方式接收回應；True 時會逐段累積 `raw_text`。
+        client (OpenAI | None): 可注入既有 client 以利測試或連線重用。
+    
+    回傳：
+        dict: 
+            {
+              "summary": str,           # 摘要（已清理）
+              "analysis": dict,         # 正規化後的 JSON 結果
+              "raw": str,               # 原始模型輸出（或錯誤文字）
+              "error": str (可選)       # 發生例外時才會出現
+            }
+    錯誤處理：
+        - 捕捉所有例外並回傳保底骨架，避免前端流程中斷；同時提供 `follow_up_queries` 以利人工復原。
     """
     conf = _load_llm_conf()
     client = client or _get_client(conf).with_options(timeout=90.0) 

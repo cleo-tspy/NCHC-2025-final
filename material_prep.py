@@ -3,21 +3,9 @@ from typing import List, Dict, Any
 from decimal import Decimal
 from sqlalchemy import text
 
-# ----------------------------
-# 取得看板所需物料備料進度列表（從資料庫查）
-# ----------------------------
 def get_material_production_progress_list_of_kanban(conn, kanbanId: str) -> List[Dict[str, Any]]:
     """
-    依據 to_kanban_produce = :kanbanId 從資料表 `kanban_material_prep_status` 撈取備料進度。
-
-    參數：
-        conn: SQLAlchemy Connection（指向 database_leanplay_supp）
-        kanbanId: 生產看板 ID（對應欄位 to_kanban_produce）
-
-    回傳：
-        list[dict]，欄位包含：
-        material_kanban_id, part_no, part_name, finish_qty(float), request_qty(float),
-        supplier_name, to_kanban_produce
+    依據 kanbanId 從資料表 `kanban_material_prep_status` 撈取備料進度
     """
     if not kanbanId:
         print(kanbanId)

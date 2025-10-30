@@ -1,6 +1,7 @@
 
 
 ## Setup env
+
 ### Venv
 * Linux/mac
 
@@ -14,8 +15,26 @@
     python -m pip install -U pip setuptools wheel
     pip install streamlit sqlalchemy pymysql pandas openai
     ```
+### 前端套件 Streamlit 參數建議
+* ./streamlit/config.toml
+    ```
+    [theme]
+    base="light"
+    primaryColor="#4b8bff"
 
-## UI 說明
+    [server]
+    port = 8081
+    ```
+
+## 網頁
+
+* 啟動網頁
+    ```
+    # 參考 config_example.ini 設定 config.ini 
+    streamlit run app_today.py
+    ```
+
+### UI 說明
 
 * 今日生產明細，表格呈現排序用意
     * 預設排序是依序用這四欄升冪：work_center_id → process_id → process_seq → expected_start_time
@@ -24,11 +43,6 @@
         3.	process_seq：同一製程裡，依製程序號由小到大，符合工藝路徑的先後。
         4.	expected_start_time：最後用今天的計畫開工時間排序，讓越早該開工的越前面。
 
+---
 
-## Run
-* 確認 config.ini 
-
-* 啟動網頁
-    ```
-    streamlit run app_today.py
-    ```
+### 驗證異常偵測結果 見 scripts/README.md 說明

@@ -5,7 +5,7 @@
 逐筆呼叫 LLM（原因/短期）與 RAG（長期），輸出 overdue_ai_YYYYMMDD.jsonl。
 
 使用方式：
-  $ python scripts/process_payloads.py --date {ymd} >> ./data/daily/{ymd}/daily_ai_process.log 2>&1
+  $ python scripts/process_payloads.py --date {ymd}
   # 或
   $ python scripts/process_payloads.py --raw data/daily/{ymd}/raw_payload_{ymd}.jsonl
 
@@ -28,8 +28,7 @@
 優先順序（互斥邏輯）：
   --only-new > --errors-only > --resume
 
-新增：抽樣模式（避免一次跑完整檔）
-  --sample N [--seed SEED] [--sample-out PATH]
+  --sample N [--seed SEED] [--sample-out PATH] 抽樣模式（避免一次跑完整檔）
   從 raw_payload 隨機抽取 N 筆，先另存為 sample 檔，再以 sample 檔進行分析。
   預設 sample 會輸出到 `data/daily/<date>/raw_payload_sample_<date>_<N>.jsonl`；
   若未指定 --out，分析輸出預設為 `overdue_ai_sample_<date>_<N>.jsonl`。
@@ -48,8 +47,6 @@ import sys
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-
-# 節流／間隔設定：改由 CLI 旗標提供（--min-interval-ms / --sleep-after-ms），不再使用環境變數。
 
 # 專案內模組
 from call_llm_api import analyze_overdue_with_llm
@@ -92,8 +89,10 @@ def _json_safe(obj):
         return float(obj)
     return obj
 
-# ---------- 參數處理 ----------
 def _parse_args() -> argparse.Namespace:
+    """
+    參數處理
+    """
     ap = argparse.ArgumentParser(description="Process raw payloads to AI analysis JSONL")
     ap.add_argument("--date", dest="ymd", default=None, help="YYYYMMDD (Asia/Taipei)")
     ap.add_argument("--raw", dest="raw_path", default=None, help="path to raw_payload_YYYYMMDD.jsonl")
@@ -226,7 +225,7 @@ def main():
                 else:
                     processed_ok.add(key)
 
-    # 追蹤上一筆 LLM 呼叫時間（用於節流）
+    # 追蹤上一筆 LLM 呼叫時間
     last_llm_ts = None
 
     processed = 0

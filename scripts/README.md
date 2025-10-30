@@ -1,6 +1,4 @@
-# scripts/ 使用說明
-
-> output data raw_20251021.csv 使用欄位是初版的逾期未開工，不是逾期四小時未開工 
+# 驗證異常偵測結果 scripts/ 使用說明
 
 這個目錄放三支批次腳本，協助**每日擷取逾期看板**、**呼叫 AI 分析**，以及**每週評估模型準確度**。
 
@@ -17,20 +15,12 @@
     - 呼叫 `call_rag_api.py` → 精實生產理論建議（長期改善）
   - 以 **JSON Lines** 存檔：`data/daily/YYYYMMDD/overdue_ai_YYYYMMDD.jsonl`
   - 內建功能：
-    - **續跑 / 篩選**旗標（互斥優先序：`--only-new` > `--errors-only` > `--resume`）：
+    - **續跑 / 篩選** 旗標（互斥優先序：`--only-new` > `--errors-only` > `--resume`）：
       - `--resume` / `--no-resume`：是否續跑（預設：`--resume`）。
       - `--retry-errors`：續跑時，對**先前錯誤**的鍵重試。
       - `--errors-only`：只處理先前錯誤（隱含啟用續跑）。
       - `--only-new`：只處理**未曾出現在 overdue_ai** 的鍵（隱含啟用續跑）。
       - `--limit N`：只處理前 N 筆。
-    - **節流 / 間隔**（環境變數，可選）：
-      - `LLM_MIN_INTERVAL_MS`：兩次 LLM 呼叫的最小間隔（毫秒）。
-      - `SLEEP_AFTER_RAG_MS`：每筆完成後固定暫停（毫秒）。
-    - **暫時性錯誤重試**（環境變數，可選）：
-      - `LLM_EXTRA_RETRIES`（預設 1）、`LLM_RETRY_BACKOFF_MS`（預設 2000）。
-      - `RAG_EXTRA_RETRIES`（預設 1）、`RAG_RETRY_BACKOFF_MS`（預設 1500）。
-    - **落盤安全**（環境變數，可選）：
-      - `FSYNC_EVERY`：每寫入 N 筆做一次 `fsync`（0 表示不 fsync）。
     - **進度提示**：每處理 100 筆會 `print` 一次進度。
   - **注意**：`overdue_ai_YYYYMMDD.jsonl` **不再保存 payload**（payload 只在 Phase 1 的 `raw_payload_*.jsonl` 中）。
 

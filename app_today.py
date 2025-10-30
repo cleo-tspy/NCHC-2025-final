@@ -586,9 +586,7 @@ if sel_rows:
             st.session_state["current_row_key"] = f"{row.get('work_order_id','')}-{row.get('kanban_id','')}"
 
 
-# --- 送給 AI（示例骨架）---
-
-# 建立結果容器（就在你顯示 payload 的附近）
+# 建立結果容器
 tabs = st.tabs(["AI 分析", "Payload"])
 
 # 取出暫存 payload/key，供各 Tab 使用
@@ -711,12 +709,3 @@ with tabs[1]:
         st.code(json.dumps(_json_safe(current_payload), ensure_ascii=False, indent=2), language="json")
     else:
         st.info("尚未產生 Payload。請在上方表格選取一列（逾期未開工）以建立分析資料。")
-
-# # ----------------------------
-# # 7) 側邊工具
-# # ----------------------------
-# with st.sidebar:
-#     st.markdown("### 工具")
-#     if st.button("重新整理"):
-#         st.cache_data.clear()
-#         st.rerun()
